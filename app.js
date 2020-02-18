@@ -4,7 +4,11 @@ const bodyParser = require("body-parser");
 
 app.set("view engine", "ejs"); //pode ocultar o .ejs abaixo
 
-app.use(bodyParser.urlencoded({ extended: true })); //copiar para colar em outros casos
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// using app.use to serve up static CSS files in public/assets/ folder when /public link is called in ejs files
+// app.use("/route", express.static("foldername"));
+app.use("/views", express.static("views"));
 
 app.listen(3000, function() {
   //porta utilizada, conecta com o servidor
