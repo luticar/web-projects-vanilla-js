@@ -1,9 +1,10 @@
-@import url("https://fonts.googleapis.com/css?family=Open+Sans&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Varela+Round&display=swap");
 
 :root {
   --success-color: #2ecc71;
   --error-color: #e74c3c;
   --button-color: #00ced1;
+  --devil-color: #666;
 }
 * {
   box-sizing: border-box;
@@ -11,7 +12,7 @@
 
 body {
   background-color: #f9fafb;
-  font-family: "Open Sans", sans-serif;
+  font-family: "Varela Round", sans-serif;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -21,6 +22,7 @@ body {
 h2 {
   text-align: center;
   margin: 0 0 20px;
+  color: var(--devil-color);
 }
 .container {
   background-color: white;
@@ -37,7 +39,7 @@ h2 {
   position: relative;
 }
 .form-control label {
-  color: #777;
+  color: var(--devil-color);
   display: block;
   margin-bottom: 5px;
 }
@@ -51,7 +53,7 @@ h2 {
 }
 .form-control input:focus {
   outline: 0;
-  border-color: #777;
+  border-color: var(--devil-color);
 }
 .form-control.success input {
   border-color: var(--success-color);
@@ -80,4 +82,11 @@ h2 {
   padding: 10px;
   margin-top: 20px;
   width: 100%;
+}
+.helper {
+  font-size: 0.7rem;
+  color: #888;
+  margin-top: 0;
+  padding: 0;
+  display: inline;
 }
