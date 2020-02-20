@@ -9,10 +9,10 @@ function App() {
           Pick a movie:
         </label>
         <select id="movie">
-          <option value="10">Sonic</option>
-          <option value="12">Parasite</option>
-          <option value="15">1917</option>
-          <option value="13">Joker</option>
+          <option value="10">Sonic ($10)</option>
+          <option value="12">Parasite ($12)</option>
+          <option value="15">1917 ($13)</option>
+          <option value="13">Joker ($14)</option>
         </select>
       </div>
       <ul className="showcase">
@@ -36,6 +36,64 @@ function App() {
           <div className="seat"></div>
           <div className="seat occupied"></div>
           <div className="seat occupied"></div>
+          <div className="seat occupied"></div>
+          <div className="seat occupied"></div>
+          <div className="seat"></div>
+          <div className="seat"></div>
+          <div className="seat"></div>
+          <div className="seat"></div>
+          <div className="seat"></div>
+          <div className="seat"></div>
+        </div>
+        <div className="row">
+          <div className="seat"></div>
+          <div className="seat"></div>
+          <div className="seat"></div>
+          <div className="seat"></div>
+          <div className="seat"></div>
+          <div className="seat occupied"></div>
+          <div className="seat occupied"></div>
+          <div className="seat"></div>
+          <div className="seat"></div>
+          <div className="seat"></div>
+          <div className="seat"></div>
+          <div className="seat"></div>
+        </div>
+        <div className="row">
+          <div className="seat"></div>
+          <div className="seat"></div>
+          <div className="seat"></div>
+          <div className="seat"></div>
+          <div className="seat"></div>
+          <div className="seat"></div>
+          <div className="seat"></div>
+          <div className="seat"></div>
+          <div className="seat occupied"></div>
+          <div className="seat occupied"></div>
+          <div className="seat"></div>
+          <div className="seat"></div>
+        </div>
+        <div className="row aisle">
+          <div className="seat"></div>
+          <div className="seat"></div>
+          <div className="seat"></div>
+          <div className="seat"></div>
+          <div className="seat"></div>
+          <div className="seat"></div>
+          <div className="seat"></div>
+          <div className="seat"></div>
+          <div className="seat"></div>
+          <div className="seat"></div>
+          <div className="seat occupied"></div>
+          <div className="seat occupied"></div>
+        </div>
+        <div className="row">
+          <div className="seat occupied"></div>
+          <div className="seat occupied"></div>
+          <div className="seat"></div>
+          <div className="seat"></div>
+          <div className="seat"></div>
+          <div className="seat"></div>
           <div className="seat"></div>
           <div className="seat"></div>
           <div className="seat"></div>
@@ -52,54 +110,8 @@ function App() {
           <div className="seat"></div>
           <div className="seat"></div>
           <div className="seat"></div>
-          <div className="seat"></div>
-          <div className="seat"></div>
-        </div>
-        <div className="row">
-          <div className="seat"></div>
-          <div className="seat"></div>
-          <div className="seat"></div>
-          <div className="seat"></div>
-          <div className="seat"></div>
-          <div className="seat"></div>
-          <div className="seat"></div>
-          <div className="seat"></div>
-          <div className="seat"></div>
-          <div className="seat"></div>
-        </div>
-        <div className="row">
-          <div className="seat"></div>
-          <div className="seat"></div>
-          <div className="seat"></div>
-          <div className="seat"></div>
-          <div className="seat"></div>
-          <div className="seat"></div>
-          <div className="seat"></div>
-          <div className="seat"></div>
-          <div className="seat"></div>
-          <div className="seat"></div>
-        </div>
-        <div className="row">
-          <div className="seat"></div>
-          <div className="seat"></div>
-          <div className="seat"></div>
-          <div className="seat"></div>
-          <div className="seat"></div>
-          <div className="seat"></div>
-          <div className="seat"></div>
-          <div className="seat"></div>
-          <div className="seat"></div>
-          <div className="seat"></div>
-        </div>
-        <div className="row">
-          <div className="seat"></div>
-          <div className="seat"></div>
-          <div className="seat"></div>
-          <div className="seat"></div>
-          <div className="seat"></div>
-          <div className="seat"></div>
-          <div className="seat"></div>
-          <div className="seat"></div>
+          <div className="seat occupied"></div>
+          <div className="seat occupied"></div>
           <div className="seat"></div>
           <div className="seat"></div>
         </div>
