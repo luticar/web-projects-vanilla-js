@@ -1,0 +1,20 @@
+{
+  "name": "web-projects-vanilla",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/luticar/web-projects-vanilla-js/tree/1-form-validator"
+  },
+  "author": "luticar",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^3.0.1",
+    "express": "^4.17.1",
+    "nodejs": "0.0.0"
+  }
+}
