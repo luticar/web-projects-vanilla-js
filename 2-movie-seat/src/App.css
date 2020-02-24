@@ -4,6 +4,7 @@
   --main-txt-color: #efefef;
   --occupied-color: #ff68cd;
   --selected-color: #5effbc;
+  --available-color: #484d8c;
   --main-font: "Montserrat", sans-serif;
 }
 * {
@@ -79,7 +80,7 @@ body {
   padding-top: 18px;
 }
 .seat {
-  background-color: darkslateblue;
+  background-color: var(--available-color);
   border-top-left-radius: 6px;
   border-top-right-radius: 6px;
   width: 18px;
