@@ -1,12 +1,19 @@
 import React, { Fragment, useEffect, useRef, useState } from "react";
 
-const PREOCCUPIED = [3, 4, 10, 20];
+const PREOCCUPIED = [3, 4, 10, 36, 37];
+
+const MOVIES = [
+  { id: 1, price: 10, name: "Sonic ($10)" },
+  { id: 2, price: 12, name: "Parasite ($12)" },
+  { id: 3, price: 13, name: "1917 ($13)" },
+  { id: 4, price: 14, name: "Joker ($14)" }
+];
 
 const MovieTheater = _props => {
   const container = useRef(null);
   const [count, setCount] = useState(0);
-  const [price, setPrice] = useState(0);
   const [seats, setSeats] = useState(new Array(6 * 12).fill(null));
+  const [movie, setMovie] = useState("");
 
   useEffect(() => {
     const selectedSeats = JSON.parse(localStorage.getItem("selectedSeats"));
@@ -17,7 +24,9 @@ const MovieTheater = _props => {
         return seat;
       })
     );
-    const selectedMovieIndex = localStorage.getItem("selectedMovieIndex");
+    const movieId = localStorage.getItem("selectedMovie");
+    const movie = MOVIES.find(m => m.id == movieId);
+    setMovie(movie);
   }, []);
 
   useEffect(() => {
@@ -47,16 +56,12 @@ const MovieTheater = _props => {
   };
 
   const onSelectMovie = e => {
-    const { value, selectedIndex } = e.target;
-    setPrice(parseInt(value));
-    setMovieData(selectedIndex, value);
-  };
-  //Storage selected movie and its price
-  const setMovieData = (movieIndex, moviePrice) => {
-    localStorage.setItem("selectedMovieIndex", movieIndex);
-    localStorage.setItem("selectedMoviePrice", moviePrice);
+    const movie = MOVIES.find(m => m.id == e.target.value);
+    setMovie(movie);
+    localStorage.setItem("selectedMovie", movie.id);
   };
 
+  const price = movie ? movie.price : 0;
   const total = price * count;
 
   const renderRow = row =>
@@ -79,12 +84,18 @@ const MovieTheater = _props => {
         <label htmlFor="" className="for">
           Pick a movie:
         </label>
-        <select id="movie" className="movie-select" onChange={onSelectMovie}>
-          <option value="0">Select a movie</option>
-          <option value="10">Sonic ($10)</option>
-          <option value="12">Parasite ($12)</option>
-          <option value="15">1917 ($13)</option>
-          <option value="13">Joker ($14)</option>
+        <select
+          id="movie"
+          className="movie-select"
+          onChange={onSelectMovie}
+          value={movie.id}
+        >
+          <option value="">Select a movie</option>
+          {MOVIES.map(movie => (
+            <option value={movie.id} key={`movie-${movie.id}`}>
+              {movie.name}
+            </option>
+          ))}
         </select>
       </div>
       <ul className="showcase">
