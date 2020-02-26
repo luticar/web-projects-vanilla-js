@@ -1,33 +1,77 @@
 import React, { Fragment, useEffect, useRef, useState } from "react";
 
+const PREOCCUPIED = [3, 4, 10, 20];
+
 const MovieTheater = _props => {
   const container = useRef(null);
   const [count, setCount] = useState(0);
   const [price, setPrice] = useState(0);
+  const [seats, setSeats] = useState(new Array(6 * 12).fill(null));
 
   useEffect(() => {
-    container.current.addEventListener("click", e => {
-      if (
-        e.target.classList.contains("seat") &&
-        !e.target.classList.contains("occupied")
-      ) {
-        e.target.classList.toggle("selected");
-      }
-      updateCounter();
-    });
+    const selectedSeats = JSON.parse(localStorage.getItem("selectedSeats"));
+    setSeats(seats =>
+      seats.map((seat, index) => {
+        if (PREOCCUPIED.indexOf(index) > -1) return "occupied";
+        if (selectedSeats.indexOf(index) > -1) return "selected";
+        return seat;
+      })
+    );
+    const selectedMovieIndex = localStorage.getItem("selectedMovieIndex");
   }, []);
 
+  useEffect(() => {
+    let seatsIndex = [];
+    seats.forEach((s, i) => {
+      if (s === "selected") {
+        seatsIndex.push(i);
+      }
+    });
+    localStorage.setItem("selectedSeats", JSON.stringify(seatsIndex));
+    updateCounter();
+  }, [seats]);
+
+  const pickSeat = idx => {
+    setSeats(
+      seats.map((s, i) => {
+        if (i === idx && s === "selected") return null;
+        if (i === idx && s !== "occupied") return "selected";
+        return s;
+      })
+    );
+  };
+
   const updateCounter = () => {
-    const selectedSeatsCount = document.querySelectorAll(".row .seat.selected")
-      .length;
+    const selectedSeatsCount = seats.filter(s => s === "selected").length;
     setCount(selectedSeatsCount);
   };
 
   const onSelectMovie = e => {
-    setPrice(parseInt(e.target.value));
+    const { value, selectedIndex } = e.target;
+    setPrice(parseInt(value));
+    setMovieData(selectedIndex, value);
+  };
+  //Storage selected movie and its price
+  const setMovieData = (movieIndex, moviePrice) => {
+    localStorage.setItem("selectedMovieIndex", movieIndex);
+    localStorage.setItem("selectedMoviePrice", moviePrice);
   };
 
   const total = price * count;
+
+  const renderRow = row =>
+    seats.slice(row * 12, (row + 1) * 12).map((seat, i) => {
+      const idx = row * 12 + i;
+
+      return (
+        <div
+          className={`seat ${seat}`}
+          data-index={idx}
+          key={`seat-${idx}`}
+          onClick={() => pickSeat(idx)}
+        ></div>
+      );
+    });
 
   return (
     <Fragment>
@@ -36,6 +80,7 @@ const MovieTheater = _props => {
           Pick a movie:
         </label>
         <select id="movie" className="movie-select" onChange={onSelectMovie}>
+          <option value="0">Select a movie</option>
           <option value="10">Sonic ($10)</option>
           <option value="12">Parasite ($12)</option>
           <option value="15">1917 ($13)</option>
@@ -58,90 +103,15 @@ const MovieTheater = _props => {
       </ul>
       <div className="container" ref={container}>
         <div className="screen"></div>
-        <div className="row">
-          <div className="seat"></div>
-          <div className="seat"></div>
-          <div className="seat occupied"></div>
-          <div className="seat occupied"></div>
-          <div className="seat occupied"></div>
-          <div className="seat occupied"></div>
-          <div className="seat"></div>
-          <div className="seat"></div>
-          <div className="seat"></div>
-          <div className="seat"></div>
-          <div className="seat"></div>
-          <div className="seat"></div>
-        </div>
-        <div className="row">
-          <div className="seat"></div>
-          <div className="seat"></div>
-          <div className="seat"></div>
-          <div className="seat"></div>
-          <div className="seat"></div>
-          <div className="seat occupied"></div>
-          <div className="seat occupied"></div>
-          <div className="seat"></div>
-          <div className="seat"></div>
-          <div className="seat"></div>
-          <div className="seat"></div>
-          <div className="seat"></div>
-        </div>
-        <div className="row">
-          <div className="seat"></div>
-          <div className="seat"></div>
-          <div className="seat"></div>
-          <div className="seat"></div>
-          <div className="seat"></div>
-          <div className="seat"></div>
-          <div className="seat"></div>
-          <div className="seat"></div>
-          <div className="seat occupied"></div>
-          <div className="seat occupied"></div>
-          <div className="seat"></div>
-          <div className="seat"></div>
-        </div>
-        <div className="row aisle">
-          <div className="seat"></div>
-          <div className="seat"></div>
-          <div className="seat"></div>
-          <div className="seat"></div>
-          <div className="seat"></div>
-          <div className="seat"></div>
-          <div className="seat"></div>
-          <div className="seat"></div>
-          <div className="seat"></div>
-          <div className="seat"></div>
-          <div className="seat occupied"></div>
-          <div className="seat occupied"></div>
-        </div>
-        <div className="row">
-          <div className="seat occupied"></div>
-          <div className="seat occupied"></div>
-          <div className="seat"></div>
-          <div className="seat"></div>
-          <div className="seat"></div>
-          <div className="seat"></div>
-          <div className="seat"></div>
-          <div className="seat"></div>
-          <div className="seat"></div>
-          <div className="seat"></div>
-          <div className="seat"></div>
-          <div className="seat"></div>
-        </div>
-        <div className="row">
-          <div className="seat"></div>
-          <div className="seat"></div>
-          <div className="seat"></div>
-          <div className="seat"></div>
-          <div className="seat"></div>
-          <div className="seat"></div>
-          <div className="seat"></div>
-          <div className="seat"></div>
-          <div className="seat occupied"></div>
-          <div className="seat occupied"></div>
-          <div className="seat"></div>
-          <div className="seat"></div>
-        </div>
+
+        {new Array(6).fill(null).map((_, index) => (
+          <div
+            className={`row ${index === 3 ? "aisle" : ""}`}
+            key={`row-${index}`}
+          >
+            {renderRow(index)}
+          </div>
+        ))}
       </div>
       <p className="text">
         You've selected <span id="count">{count}</span> seats <br />
