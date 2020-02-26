@@ -1,10 +1,21 @@
-const form = document.querySelector(".form");
-const username = document.getElementById("username");
-const email = document.getElementById("email");
-const password = document.getElementById("password");
-const password2 = document.getElementById("password2");
+const EMAIL_RE = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-// check required
+function initializeEvents() {
+  const form = document.querySelector(".form");
+  const username = document.getElementById("username");
+  const email = document.getElementById("email");
+  const password = document.getElementById("password");
+  const password2 = document.getElementById("password2");
+  form.addEventListener("submit", function(e) {
+    e.preventDefault();
+    checkRequired([username, email, password, password2]);
+    checkLength(username, 3, 20);
+    checkLength(password, 6, 25);
+    checkEmail(email);
+    passwordMatch(password, password2);
+  });
+}
+
 function checkRequired(inputArr) {
   inputArr.forEach(function(input) {
     if (input.value.trim() === "") {
@@ -15,29 +26,25 @@ function checkRequired(inputArr) {
   });
 }
 
-// get field name
 function getFieldName(input) {
   return input.id[0].toUpperCase() + input.id.slice(1);
 }
-// check if email is valid
+
 function checkEmail(input) {
-  const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  if (re.test(input.value.trim())) {
+  if (EMAIL_RE.test(input.value.trim())) {
     showSuccess(input);
   } else {
     showError(input, "Email is not valid.");
   }
 }
 
-//check password match
-function passwordMatch(password, password2) {
-  if (password.value !== password2.value) {
-    showError(password, "Passwords don't match!");
-    showError(password2, "Please type again!");
+function passwordMatch(input, input2) {
+  if (input.value !== input2.value) {
+    showError(input, "Passwords don't match!");
+    showError(input2, "Please type again!");
   }
 }
 
-//check input length
 function checkLength(input, min, max) {
   if (input.value.length < min) {
     showError(
@@ -53,7 +60,7 @@ function checkLength(input, min, max) {
     showSuccess(input);
   }
 }
-//show input error msg
+
 function showError(input, message) {
   const formControl = input.parentElement;
   formControl.className = "form-control error";
@@ -61,18 +68,9 @@ function showError(input, message) {
   small.innerText = message;
 }
 
-//show success outline
 function showSuccess(input) {
   const formControl = input.parentElement;
   formControl.className = "form-control success";
 }
 
-//event listeners
-form.addEventListener("submit", function(e) {
-  e.preventDefault();
-  checkRequired([username, email, password, password2]);
-  checkLength(username, 3, 20);
-  checkLength(password, 6, 25);
-  checkEmail(email);
-  passwordMatch(password, password2);
-});
+window.addEventListener("DOMContentLoaded", initializeEvents);
