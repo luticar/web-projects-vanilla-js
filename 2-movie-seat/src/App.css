@@ -1,0 +1,112 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat&display=swap");
+:root {
+  --bg-color: #202530;
+  --main-txt-color: #efefef;
+  --occupied-color: #ff68cd;
+  --selected-color: #5effbc;
+  --available-color: #484d8c;
+  --main-font: "Montserrat", sans-serif;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  background-color: var(--bg-color);
+  color: var(--main-txt-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  font-family: var(--main-font);
+  margin: 0;
+}
+
+.App {
+  text-align: center;
+}
+.movie-container {
+  margin: 20px 0;
+  background-color: var(--bg-color);
+  color: var(--occupied-color);
+}
+.movie-container select {
+  background-color: #fff;
+  border: 0;
+  border-radius: 5px;
+  font-size: 1em;
+  margin-left: 10px;
+  padding: 5px 15px;
+  appearance: none;
+  -webkit-appearance: none;
+}
+.showcase {
+  display: flex;
+  background-color: rgba(0, 0, 0, 0.1);
+  padding: 5px 10px;
+  border-radius: 5px;
+  justify-content: space-between;
+}
+.showcase li {
+  display: flex;
+  margin: 0 10px;
+  list-style-type: none;
+  align-items: center;
+  justify-content: center;
+}
+.showcase li small {
+  margin-left: 2px;
+}
+.container {
+  perspective: 50em;
+  margin-bottom: 30px;
+  font-family: var(--main-font);
+}
+.screen {
+  background-color: #fff;
+  transform: rotateX(-45deg);
+  box-shadow: 0 3px 10px var(--selected-color);
+  width: 90%;
+  height: 70px;
+  margin: 15px auto;
+}
+.row {
+  margin: 0 1em;
+  padding: 3px;
+  display: flex;
+  justify-content: space-evenly;
+}
+.row.aisle {
+  padding-top: 18px;
+}
+.seat {
+  background-color: var(--available-color);
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  width: 18px;
+  height: 13px;
+  margin: 0.1em;
+}
+.seat:nth-of-type(4) {
+  margin-right: 18px;
+}
+.seat:nth-last-of-type(4) {
+  margin-left: 18px;
+}
+.seat.selected {
+  background-color: var(--selected-color);
+}
+.seat.occupied {
+  background-color: var(--occupied-color);
+}
+.seat:not(.occupied):hover {
+  cursor: pointer;
+  transform: scale(1.2);
+}
+.showcase .seat:not(.occupied):hover {
+  cursor: default;
+  transform: scale(1);
+}
+p.text span {
+  color: var(--selected-color);
+}

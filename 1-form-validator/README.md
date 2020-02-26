@@ -1,4 +1,4 @@
-_Form Validator_
+# Form Validator
 Intro Project of the course _20 Web Projects With Vanilla JavaScript_ by Brad Traversy
 
 Simple form with script that checks required fields, min and max length, email (using regex) and if password and password confirmation match.
