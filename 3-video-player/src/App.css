@@ -19,9 +19,13 @@ h1 {
 }
 .container {
   justify-content: center;
-  margin: auto;
-  display: block;
   text-align: center;
+  display: block;
+}
+.container,
+.screen,
+.controls {
+  margin: 0 auto;
 }
 
 .screen {
@@ -46,8 +50,6 @@ h1 {
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
   display: flex;
-  justify-content: center;
-  align-items: center;
   padding: 10px;
 }
 .controls .btn {
@@ -65,7 +67,7 @@ h1 {
   color: #dc3545;
 }
 .pause {
-  color: #fff;
+  color: #28a745;
 }
 .timestamp {
   color: #fff;
