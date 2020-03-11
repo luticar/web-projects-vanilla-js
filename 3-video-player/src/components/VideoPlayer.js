@@ -6,6 +6,7 @@ import videoSrc from "../videos/gone.mp4";
 const VideoPlayer = props => {
   const [playing, setPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
+  const [timestamp, setTimestamp] = useState(0);
   const video = useRef(null);
 
   useEffect(() => {
@@ -15,8 +16,7 @@ const VideoPlayer = props => {
 
   useEffect(() => {
     if (!video.current) return;
-
-    video.current.addEventListener("timeupdate", updateProgress);
+    video.current.addEventListener("timeupdate", updateTime);
   }, [video.current]);
 
   const togglePlaying = e => {
@@ -28,14 +28,22 @@ const VideoPlayer = props => {
     video.current.currentTime = 0;
   };
 
-  const updateProgress = e => {
-    setProgress((video.current.currentTime / video.current.duration) * 100);
+  const updateTime = e => {
+    const currentTime = video.current.currentTime;
+    setProgress((currentTime / video.current.duration) * 100);
+    setTimestamp(currentTime);
   };
 
   const onSeek = e => {
     const current =
       (parseInt(e.target.value, 10) * video.current.duration) / 100;
     video.current.currentTime = current;
+  };
+
+  const parseTime = time => {
+    let mins = String(Math.floor(time / 60));
+    let secs = String(Math.floor(time % 60));
+    return `${mins.padStart(2, "0")}:${secs.padStart(2, "0")}`;
   };
 
   return (
@@ -88,7 +96,7 @@ const VideoPlayer = props => {
             onChange={onSeek}
           />
           <span className="timestamp" id="timestamp">
-            00:00
+            {parseTime(timestamp)}
           </span>
         </div>
       </div>
