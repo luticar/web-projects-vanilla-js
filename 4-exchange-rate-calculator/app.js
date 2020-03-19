@@ -35,7 +35,7 @@ function populateOption(currencyElNum) {
   let dropdown = currencyElNum;
 
   fetch(url)
-    .then(function(response) {
+    .then(response => {
       if (response.status !== 200) {
         console.warn(
           "Looks like there was a problem. Status Code: " + response.status
@@ -44,23 +44,13 @@ function populateOption(currencyElNum) {
       }
 
       // Examine the text in the response
-      response.json().then(function(data) {
+      response.json().then(data => {
         Object.keys(data.rates).forEach(key => {
           let option = document.createElement("option");
           option.text = key;
           option.value = key;
           dropdown.add(option);
         });
-
-        // let currCode = Object.keys(data.rates);
-        // console.log("curr code = " + currCode);
-        // console.log();
-        // for (let j = 1; j < currCode.length; j++) {
-        //   let option = document.createElement("option");
-        //   option.text = currCode[j];
-        //   option.value = currCode[j];
-        //   dropdown.add(option);
-        // }
       });
     })
     .catch(function(err) {
