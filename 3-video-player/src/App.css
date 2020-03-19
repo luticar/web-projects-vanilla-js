@@ -1,0 +1,86 @@
+@import url("https://fonts.googleapis.com/css?family=Questrial&display=swap");
+
+* {
+  box-sizing: border-box;
+}
+body {
+  font-family: "Questrial", sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-height: 100vh;
+  margin: 0;
+  background-color: #666;
+}
+
+h1 {
+  color: #fff;
+}
+.container {
+  justify-content: center;
+  text-align: center;
+  display: block;
+}
+.container,
+.screen,
+.controls {
+  margin: 0 auto;
+}
+
+.screen {
+  cursor: pointer;
+  background-color: #000;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+.controls {
+  background: #642b73; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to top,
+    #8e9eab,
+    #eef2f3
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to top,
+    #8e9eab,
+    #eef2f3
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  color: #fff;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  display: flex;
+  padding: 10px;
+}
+.controls .btn {
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+.btn:focus {
+  outline: 0;
+}
+.play {
+  color: #28a745;
+}
+.stop {
+  color: #dc3545;
+}
+.pause {
+  color: #28a745;
+}
+.timestamp {
+  color: #fff;
+  font-weight: bold;
+  margin-left: 10px;
+}
+.screen,
+.controls {
+  width: 70%;
+}
+@media (max-width: 800px) {
+  .screen,
+  .controls {
+    width: 90%;
+  }
+}
