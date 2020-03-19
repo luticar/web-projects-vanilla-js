@@ -53,7 +53,7 @@ function populateOption(currencyElNum) {
         });
       });
     })
-    .catch(function(err) {
+    .catch(err => {
       console.error("Fetch Error -", err);
     });
 }
