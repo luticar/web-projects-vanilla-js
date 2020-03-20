@@ -1,40 +1,40 @@
-const currencyElOne = document.getElementById("currency-one");
-const currencyElTwo = document.getElementById("currency-two");
-const amountElOne = document.getElementById("amount-one");
-const amountElTwo = document.getElementById("amount-two");
+const currencyFrom = document.getElementById("currency-one");
+const currencyTo = document.getElementById("currency-two");
+const amountFrom = document.getElementById("amount-one");
+const amountTo = document.getElementById("amount-two");
 const rateEl = document.getElementById("rate");
 const swapBtn = document.getElementById("swap");
-const url = "https://api.exchangerate-api.com/v4/latest/USD";
+const ApiUrl = "https://api.exchangerate-api.com/v4/latest/";
 
 //Event listeners
-currencyElOne.addEventListener("change", calculate);
-amountElOne.addEventListener("input", calculate);
-currencyElTwo.addEventListener("change", calculate);
-amountElTwo.addEventListener("input", calculate);
+currencyFrom.addEventListener("change", calculate);
+amountFrom.addEventListener("input", calculate);
+currencyTo.addEventListener("change", calculate);
+amountTo.addEventListener("input", calculate);
 swapBtn.addEventListener("click", () => {
-  const temp = currencyElOne.value;
-  currencyElOne.value = currencyElTwo.value;
-  currencyElTwo.value = temp;
+  const temp = currencyFrom.value;
+  currencyFrom.value = currencyTo.value;
+  currencyTo.value = temp;
   calculate();
 });
 
 function calculate() {
-  const currency_one = currencyElOne.value,
-    currency_two = currencyElTwo.value;
-  fetch(` https://api.exchangerate-api.com/v4/latest/${currency_one}`)
+  const currencyOne = currencyFrom.value;
+  const currencyTwo = currencyTo.value;
+  fetch(ApiUrl + currencyOne)
     .then(res => res.json())
     .then(data => {
-      const rate = data.rates[currency_two];
-      rateEl.innerText = `1 ${currency_one} = ${rate} ${currency_two}`;
-      amountElTwo.value = (amountElOne.value * rate).toFixed(2);
+      const rate = data.rates[currencyTwo];
+      rateEl.innerText = `1 ${currencyOne} = ${rate} ${currencyTwo}`;
+      amountTo.value = (amountFrom.value * rate).toFixed(2);
     });
 }
 
 // populate select input
-function populateOption(currencyElNum) {
-  let dropdown = currencyElNum;
+function populateOption(currency) {
+  let dropdown = currency;
 
-  fetch(url)
+  fetch(ApiUrl + "USD")
     .then(response => {
       if (response.status !== 200) {
         console.warn(
@@ -58,5 +58,5 @@ function populateOption(currencyElNum) {
     });
 }
 
-populateOption(currencyElOne);
-populateOption(currencyElTwo);
+populateOption(currencyFrom);
+populateOption(currencyTo);
