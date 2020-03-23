@@ -8,8 +8,6 @@ const calculateWealthBtn = document.getElementById("calculate-wealth");
 let data = [];
 
 getRandomUser();
-getRandomUser();
-getRandomUser();
 
 // fetch random user and add money
 async function getRandomUser() {
@@ -51,6 +49,14 @@ function formatMoney(number) {
   return "$" + number.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,"); // 12,345.67
 }
 
+function doubleMoney() {
+  data = data.map(user => {
+    return { ...user, money: user.money * 2 };
+  });
+  updateDOM();
+}
+
 // Event listeners
 
 addUserBtn.addEventListener("click", getRandomUser);
+doubleBtn.addEventListener("click", doubleMoney);
