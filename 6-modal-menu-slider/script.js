@@ -1,3 +1,7 @@
+window.addEventListener("DOMContentLoaded", event => {
+  console.log("DOM fully loaded and parsed");
+});
+
 const toggle = document.getElementById("toggle");
 const openModal = document.getElementById("open");
 const closeModal = document.getElementById("close");
@@ -12,8 +16,7 @@ closeModal.addEventListener("click", () =>
   modal.classList.remove("show-modal")
 );
 
-window.addEventListener("click", e => {
-  e.target == modal ? modal.classList.remove("show-modal") : false;
-  console.log("clicked to close", e.target);
-  return;
-});
+// close modal when clicking in the area outside it
+window.addEventListener("click", e =>
+  e.target == modal ? modal.classList.remove("show-modal") : false
+);
