@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Comic+Neue&family=Lato&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Lato&family=Playfair+Display:wght@400&display=swap");
 
 :root {
   --modal-duration: 1s;
@@ -22,6 +22,11 @@ body.show-nav {
   /* width of nav */
   transform: translateX(200px);
 }
+h1,
+h2,
+h3 {
+  font-family: "Playfair Display", serif;
+}
 nav {
   background-color: var(--primary-color);
   border-right: 2px solid var(--separator-border-color);
@@ -44,11 +49,7 @@ nav .logo img {
   width: 75px;
   border-radius: 50%;
 }
-h1,
-h2,
-h3 {
-  font-family: "Comic Neue", cursive;
-}
+
 nav ul {
   list-style-type: none;
   padding: 0;
@@ -138,7 +139,6 @@ button:focus {
 }
 .modal-header {
   background-color: var(--primary-color);
-  font-family: "Comic Neue", cursive;
   color: var(--light-font-color);
   padding: 15px;
 }
