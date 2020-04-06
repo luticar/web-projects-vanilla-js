@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>🚹 Hangman</title>
+  </head>
+  <body>
+    <h1>Hangman Game</h1>
+    <p>Guess the word - enter a letter</p>
+    <div class="game-container">
+      <svg class="figure-container" height="250" width="200">
+        <!-- Rod -->
+        <line x1="60" y1="20 " x2="140" y2="20" />
+        <line x1="140" y1="20 " x2="140" y2="50" />
+        <line x1="60" y1="20 " x2="60" y2="220" />
+        <line x1="25" y1="220 " x2="95" y2="220" />
+
+        <!-- Head -->
+        <circle cx="140" cy="70" r="20" class="figure-part" />
+        <!-- Body -->
+        <line x1="140" y1="90 " x2="140" y2="150" class="figure-part" />
+        <!-- Arms -->
+        <line x1="110" y1="130 " x2="140" y2="90" class="figure-part" />
+        <line x1="140" y1="90 " x2="170" y2="130" class="figure-part" />
+        <!-- Legs -->
+        <line x1="110" y1="190 " x2="140" y2="150" class="figure-part" />
+        <line x1="140" y1="150 " x2="170" y2="190" class="figure-part" />
+      </svg>
+      <div class="wrong-letters-container" id="wrong-letters">
+        <p>
+          Wrong letters
+        </p>
+        <span>w, v, k</span>
+      </div>
+      <div class="word" id="word">
+        <div class="letter">F</div>
+        <div class="letter">O</div>
+        <div class="letter">S</div>
+      </div>
+    </div>
+    <!-- Container for final msg -->
+    <div class="popup-container" id="popupcontainer">
+      <div class="popup">
+        <h2 id="final-msg">You Won</h2>
+        <button id="play-btn">Play Again</button>
+      </div>
+      <div class="notification-container" id="notification-container">
+        <p>You've already entered this letter</p>
+      </div>
+    </div>
+  </body>
+</html>
