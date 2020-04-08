@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", async function () {
   console.log("page loaded!");
   const wordElem = document.getElementById("word");
   const wrongLettersElem = document.getElementById("wrong-letters");
@@ -9,17 +9,27 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const figureParts = document.querySelectorAll(".figure-part");
 
-  const words = ["fosbaldo", "dinofauro", "tonton", "naruto"];
+  const fetchWord = async () => {
+    const res = await fetch("words.json");
+    const data = await res.json();
+    const wordsArr = data.map((word) => word.name);
+    return wordsArr;
+  };
 
-  const sortWord = () => words[Math.floor(Math.random() * words.length)];
-  let selectedWord = sortWord();
+  const sortWord = async () => {
+    const words = await fetchWord();
+    return words[Math.floor(Math.random() * words.length)];
+  };
+
+  let selectedWord = await sortWord();
   let playable = true;
 
   const correctLetters = [];
   const wrongLetters = [];
 
   // show hidden word
-  function displayWord() {
+  const displayWord = () => {
+    if (!selectedWord) return;
     wordElem.innerHTML = `${selectedWord
       .split("")
       .map(
@@ -35,11 +45,16 @@ document.addEventListener("DOMContentLoaded", function () {
       finalMsg.innerText = "Congratulations, you won! 🤩";
       popup.style.display = "flex";
       playable = false;
+      document.onkeydown = (e) => {
+        if (e.keyCode === 13) {
+          restartGame();
+        }
+      };
     }
-  }
+  };
 
   // Update wrong letters
-  function updateWrongLettersElem() {
+  const updateWrongLettersElem = () => {
     wrongLettersElem.innerHTML = `${
       wrongLetters.length > 0 ? "<p>Wrong</p>" : ""
     }
@@ -47,9 +62,9 @@ document.addEventListener("DOMContentLoaded", function () {
     `;
     drawFigure();
     endGame();
-  }
+  };
 
-  function drawFigure() {
+  const drawFigure = () => {
     figureParts.forEach((part, index) => {
       const errors = wrongLetters.length;
       if (index < errors) {
@@ -58,26 +73,31 @@ document.addEventListener("DOMContentLoaded", function () {
         part.style.display = "none";
       }
     });
-  }
+  };
   const endGame = () => {
     if (wrongLetters.length === 6) {
       finalMsg.innerHTML = `<p>Sorry, you lost 😓<br/> answer: ${selectedWord}</p>`;
       popup.style.display = "flex";
       playable = false;
+      document.onkeydown = (e) => {
+        if (e.keyCode === 13) {
+          restartGame();
+        }
+      };
     }
   };
-  function showNotification() {
+  showNotification = () => {
     notification.classList.add("show");
     setTimeout(() => {
       notification.classList.remove("show");
     }, 1500);
-  }
+  };
 
   // keydown letter press
   window.addEventListener("keydown", (e) => {
     if (playable) {
       if (e.keyCode >= 65 && e.keyCode <= 90) {
-        const letter = e.key.toLocaleLowerCase;
+        const letter = e.key.toLowerCase();
         if (selectedWord.includes(letter)) {
           if (!correctLetters.includes(letter)) {
             correctLetters.push(letter);
@@ -97,15 +117,17 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
   // Restart
-  const restartGame = () => {
+  const restartGame = async () => {
+    playable = true;
     correctLetters.splice(0);
     wrongLetters.splice(0);
-    selectedWord = sortWord();
+    selectedWord = await sortWord();
     displayWord();
     updateWrongLettersElem();
     popup.style.display = "none";
   };
 
   playAgainBtn.addEventListener("click", restartGame);
+
   displayWord();
 });
