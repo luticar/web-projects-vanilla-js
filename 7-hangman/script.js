@@ -27,8 +27,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   const correctLetters = [];
   const wrongLetters = [];
 
-  // show hidden word
-  const displayWord = () => {
+  const displayUnderscoreAndLetter = () => {
     if (!selectedWord) return;
     wordElem.innerHTML = `${selectedWord
       .split("")
@@ -53,7 +52,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
   };
 
-  // Update wrong letters
   const updateWrongLettersElem = () => {
     wrongLettersElem.innerHTML = `${
       wrongLetters.length > 0 ? "<p>Wrong</p>" : ""
@@ -74,6 +72,14 @@ document.addEventListener("DOMContentLoaded", async function () {
       }
     });
   };
+
+  notificationRepeatedLetter = () => {
+    notification.classList.add("show");
+    setTimeout(() => {
+      notification.classList.remove("show");
+    }, 1500);
+  };
+
   const endGame = () => {
     if (wrongLetters.length === 6) {
       finalMsg.innerHTML = `<p>Sorry, you lost 😓<br/> answer: ${selectedWord}</p>`;
@@ -86,48 +92,44 @@ document.addEventListener("DOMContentLoaded", async function () {
       };
     }
   };
-  showNotification = () => {
-    notification.classList.add("show");
-    setTimeout(() => {
-      notification.classList.remove("show");
-    }, 1500);
-  };
 
   // keydown letter press
   window.addEventListener("keydown", (e) => {
     if (playable) {
+      // check if it is a letter key
       if (e.keyCode >= 65 && e.keyCode <= 90) {
         const letter = e.key.toLowerCase();
         if (selectedWord.includes(letter)) {
           if (!correctLetters.includes(letter)) {
             correctLetters.push(letter);
-            displayWord();
+            displayUnderscoreAndLetter();
           } else {
-            showNotification();
+            notificationRepeatedLetter();
           }
         } else {
           if (!wrongLetters.includes(letter)) {
             wrongLetters.push(letter);
             updateWrongLettersElem();
           } else {
-            showNotification();
+            notificationRepeatedLetter();
           }
         }
       }
     }
   });
+
   // Restart
   const restartGame = async () => {
     playable = true;
     correctLetters.splice(0);
     wrongLetters.splice(0);
     selectedWord = await sortWord();
-    displayWord();
+    displayUnderscoreAndLetter();
     updateWrongLettersElem();
     popup.style.display = "none";
   };
 
   playAgainBtn.addEventListener("click", restartGame);
 
-  displayWord();
+  displayUnderscoreAndLetter();
 });
