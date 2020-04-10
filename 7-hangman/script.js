@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", async function () {
+document.addEventListener("DOMContentLoaded", async () => {
   console.log("page loaded!");
   const wordElem = document.getElementById("word");
   const wrongLettersElem = document.getElementById("wrong-letters");
