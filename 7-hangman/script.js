@@ -16,12 +16,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     return wordsArr;
   };
 
-  const sortWord = async () => {
+  const raffleWord = async () => {
     const words = await fetchWord();
     return words[Math.floor(Math.random() * words.length)];
   };
 
-  let selectedWord = await sortWord();
+  let selectedWord = await raffleWord();
   let playable = true;
 
   const correctLetters = [];
@@ -123,7 +123,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     playable = true;
     correctLetters.splice(0);
     wrongLetters.splice(0);
-    selectedWord = await sortWord();
+    selectedWord = await raffleWord();
     displayUnderscoreAndLetter();
     updateWrongLettersElem();
     popup.style.display = "none";
