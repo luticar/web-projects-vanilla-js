@@ -1,0 +1,117 @@
+:root {
+  --main-color: #fff;
+  --underline-and-box-color: #1caca0;
+  --notification-color: rgba(0, 0, 0, 0.3);
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  display: flex;
+  flex-direction: column;
+  height: 80vh;
+  margin: 0;
+  align-items: center;
+  overflow: hidden;
+  background-color: #34495e;
+  color: var(--main-color);
+  font-family: Arial, Helvetica, sans-serif;
+}
+h1 {
+  margin: 20px 0 0;
+}
+.game-container {
+  padding: 20px 30px;
+  margin: auto;
+  height: 350px;
+  width: 450px;
+  position: relative;
+}
+.figure-container {
+  fill: transparent;
+  stroke: var(--main-color);
+  stroke-width: 4px;
+  stroke-linecap: round;
+}
+.figure-part {
+  display: none;
+}
+.wrong-letters-container {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  text-align: right;
+}
+.wrong-letters-container p {
+  margin: 0 0 5px;
+}
+.wrong-letters-container span {
+  font-size: 24px;
+}
+.word {
+  display: flex;
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.letter {
+  display: flex;
+  margin: 0 3px;
+  height: 50px;
+  width: 20px;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
+  border-bottom: 3px solid var(--underline-and-box-color);
+}
+.popup-container {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: var(--notification-color);
+}
+.popup {
+  padding: 10px;
+  background-color: var(--underline-and-box-color);
+  opacity: 0.8;
+  border-radius: 5px;
+  text-align: center;
+  box-shadow: 0 15px 10px 3px var(--notification-color);
+}
+.popup button {
+  padding: 12px 20px;
+  border: 0;
+  margin-top: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  color: var(--underline-and-box-color);
+  background-color: var(--main-color);
+}
+.popup button:active {
+  transform: scale(0.95);
+}
+.popup button:focus {
+  outline: 0;
+}
+.notification-container {
+  padding: 15px 20px;
+  position: absolute;
+  bottom: -58px;
+  background-color: var(--notification-color);
+  border-radius: 10px 10px 0 0;
+  transition: transform 0.3s ease-in-out;
+}
+.notification-container p {
+  margin: 0;
+}
+.notification-container.show {
+  transform: translateY(-58px);
+}
