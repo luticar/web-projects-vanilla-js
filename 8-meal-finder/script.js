@@ -5,56 +5,50 @@ const menu = {
   mealsElem: null,
   resultHeading: null,
   singleMealElem: null,
+  clearElements() {
+    menu.mealsElem.innerHTML = "";
+    menu.resultHeading.innerHTML = "";
+  },
+  notFoundMsg() {
+    menu.resultHeading.innerHTML = "<p>Word not found. Please, try again.</p>";
+  },
+  emptyFieldMsg() {
+    menu.resultHeading.innerHTML = "<p>Please fill the search field.</p>";
+  },
+  displayMealThumbs(meals) {
+    if (meals === null) {
+      menu.notFoundMsg();
+    } else {
+      menu.clearElements();
+      menu.mealsElem.innerHTML = meals
+        .map(
+          (meal) =>
+            `<div class='meal'>
+            <img src="${meal.strMealThumb}" alt="${meal.strMeal}"/>
+            <div class="meal-info" data-mealID="${meal.idMeal}">
+            ${meal.strMeal}
+            </div>
+            </div>`
+        )
+        .join(" ");
+    }
+  },
   fetchMeal(term) {
     fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${term}`)
       .then((res) => res.json())
       .then((data) => {
-        menu.resultHeading.innerHTML = `<h2>Search results for <em>${term}</em>:</h2>`;
-        if (data.meals === null) {
-          menu.resultHeading.innerHTML = `<p>Term not found. Please, try again.</p>`;
-        } else {
-          menu.mealsElem.innerHTML = data.meals
-            .map(
-              (meal) =>
-                `<div class='meal'>
-            <img src="${meal.strMealThumb}" alt="${meal.strMeal}"/>
-            <div class="meal-info" data-mealID="${meal.idMeal}">
-            <h3>${meal.strMeal}</h3>
-            </div>
-            </div>`
-            )
-            .join(" ");
-        }
+        menu.displayMealThumbs(data.meals);
       });
   },
-  //   displayMealThumbs(meals) {
-
-  //   },
-  getValuefromInput() {
+  getValueFromInput() {
     const term = menu.search.value;
     if (term.trim()) {
       menu.fetchMeal(term);
       return;
     }
-    alert("please fill the search field");
+    menu.emptyFieldMsg();
   },
-
-  searchMeal(e) {
-    console.log(e.target);
-    getValuefromInput();
-    menu.singleMealElem.innerHTML = "HELLO";
-  },
-  addMealToDOM(meal) {
-    const ingredients = [];
-    for (let i = 1; i <= 20; i++) {
-      if (meal[`strIngredient${i}`]) {
-        ingredients.push(
-          `${meal[`strIngredient${i}`]} - ${meal[`strMeasure${i}`]}`
-        );
-      } else {
-        break;
-      }
-    }
+  displayMealInfo(meal, ingredients) {
     menu.singleMealElem.innerHTML = `<div class="single-meal">
     <h1>${meal.strMeal}</h1>
     <img src="${meal.strMealThumb}" alt="${meal.strMeal}"/>
@@ -68,10 +62,29 @@ const menu = {
     <ul>${ingredients.map((ing) => `<li>${ing}</li>`).join(" ")}</ul>
     </div>`;
   },
-  getrandomMeal() {
-    console.log("clicou em random");
+  fillRecipeArray(meal, ingredients) {
+    for (let i = 1; i <= 20; i++) {
+      if (meal[`strIngredient${i}`]) {
+        ingredients.push(
+          `${meal[`strIngredient${i}`]} - ${meal[`strMeasure${i}`]}`
+        );
+      } else {
+        break;
+      }
+    }
   },
-  //aqui
+  showMealRecipe(event) {
+    const mealInfo = event.target;
+    if (mealInfo) {
+      const mealId = mealInfo.getAttribute("data-mealID");
+      menu.getMealById(mealId);
+    }
+  },
+  addMealToDOM(meal) {
+    const ingredients = [];
+    menu.fillRecipeArray(meal, ingredients);
+    menu.displayMealInfo(meal, ingredients);
+  },
   getMealById(mealId) {
     fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${mealId}`)
       .then((res) => res.json())
@@ -81,8 +94,7 @@ const menu = {
       });
   },
   getRandomMeal() {
-    menu.mealsElem.innerHTML = "";
-    menu.resultHeading.innerHTML = "";
+    menu.clearElements();
     fetch("https://www.themealdb.com/api/json/v1/1/random.php")
       .then((res) => res.json())
       .then((data) => {
@@ -90,10 +102,15 @@ const menu = {
         menu.addMealToDOM(meal);
       });
   },
+  enterToSubmit(e) {
+    if (e.keyCode === 13) {
+      e.preventDefault();
+      menu.getValueFromInput();
+    }
+  },
 };
 
 function initialize() {
-  console.log("inicializado");
   menu.search = document.getElementById("search");
   menu.submit = document.getElementById("submit");
   menu.random = document.getElementById("random");
@@ -101,25 +118,9 @@ function initialize() {
   menu.resultHeading = document.getElementById("result-heading");
   menu.singleMealElem = document.getElementById("single-meal");
   menu.random.addEventListener("click", menu.getRandomMeal);
-  menu.submit.addEventListener("click", menu.getValuefromInput);
-  menu.mealsElem.addEventListener("click", (event) => {
-    const mealInfo = event.target;
-    console.log("target: " + mealInfo);
-    // ((item) => {
-    //   if (item.classList) {
-    //     return item.classList.contains("meal-info");
-    //   } else {
-    //     return false;
-    //   }
-    // });
-    if (mealInfo) {
-      const mealId = mealInfo.getAttribute("data-mealID");
-      menu.getMealById(mealId);
-      console.log("id: " + mealId);
-    }
-  });
+  menu.submit.addEventListener("click", menu.getValueFromInput);
+  window.addEventListener("keydown", menu.enterToSubmit);
+  menu.mealsElem.addEventListener("click", menu.showMealRecipe);
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  initialize();
-});
+document.addEventListener("DOMContentLoaded", initialize);
