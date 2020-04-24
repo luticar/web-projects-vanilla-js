@@ -22,15 +22,15 @@ const menu = {
       menu.clearElements();
       menu.mealsElem.innerHTML = meals
         .map(
-          (meal) =>
-            `<div class='meal'>
+          (meal) => `
+          <div class='meal'>
             <img src="${meal.strMealThumb}" alt="${meal.strMeal}"/>
-            <div class="meal-info" data-mealID="${meal.idMeal}">
-            ${meal.strMeal}
-            </div>
-            </div>`
+              <div class="meal-info" data-mealID="${meal.idMeal}">
+                ${meal.strMeal}
+              </div>
+          </div>`
         )
-        .join(" ");
+        .join("");
     }
   },
   fetchMeal(term) {
@@ -49,28 +49,28 @@ const menu = {
     menu.emptyFieldMsg();
   },
   displayMealInfo(meal, ingredients) {
-    menu.singleMealElem.innerHTML = `<div class="single-meal">
-    <h1>${meal.strMeal}</h1>
-    <img src="${meal.strMealThumb}" alt="${meal.strMeal}"/>
-    <div class="single-meal-info">
-    ${meal.strCategory ? `<h4>${meal.strCategory}</h4>` : ""}
-     ${meal.strArea ? `<h4>${meal.strArea}</h4>` : ""}
-    </div>
-    <div class="main">
-    <p>${meal.strInstructions}</p>
-    <h2>Ingredients</h2>
-    <ul>${ingredients.map((ing) => `<li>${ing}</li>`).join(" ")}</ul>
+    menu.singleMealElem.innerHTML = `
+    <div class="single-meal">
+      <h1>${meal.strMeal}</h1>
+      <img src="${meal.strMealThumb}" alt="${meal.strMeal}"/>
+        <div class="single-meal-info">
+          ${meal.strCategory ? `<h4>${meal.strCategory}</h4>` : ""}
+          ${meal.strArea ? `<h4>${meal.strArea}</h4>` : ""}
+        </div>
+        <div class="main">
+          <p>${meal.strInstructions}</p>
+          <h2>Ingredients</h2>
+          <ul>
+            ${ingredients.map((ing) => `<li>${ing}</li>`).join("")}
+          </ul>
     </div>`;
   },
   fillRecipeArray(meal, ingredients) {
     for (let i = 1; i <= 20; i++) {
-      if (meal[`strIngredient${i}`]) {
-        ingredients.push(
-          `${meal[`strIngredient${i}`]} - ${meal[`strMeasure${i}`]}`
-        );
-      } else {
-        break;
-      }
+      if (!meal[`strIngredient${i}`]) return;
+      ingredients.push(
+        `${meal[`strIngredient${i}`]} - ${meal[`strMeasure${i}`]}`
+      );
     }
   },
   showMealRecipe(event) {
@@ -108,19 +108,18 @@ const menu = {
       menu.getValueFromInput();
     }
   },
+  initialize() {
+    menu.search = document.getElementById("search");
+    menu.submit = document.getElementById("submit");
+    menu.random = document.getElementById("random");
+    menu.mealsElem = document.getElementById("meals");
+    menu.resultHeading = document.getElementById("result-heading");
+    menu.singleMealElem = document.getElementById("single-meal");
+    menu.random.addEventListener("click", menu.getRandomMeal);
+    menu.submit.addEventListener("click", menu.getValueFromInput);
+    window.addEventListener("keydown", menu.enterToSubmit);
+    menu.mealsElem.addEventListener("click", menu.showMealRecipe);
+  },
 };
 
-function initialize() {
-  menu.search = document.getElementById("search");
-  menu.submit = document.getElementById("submit");
-  menu.random = document.getElementById("random");
-  menu.mealsElem = document.getElementById("meals");
-  menu.resultHeading = document.getElementById("result-heading");
-  menu.singleMealElem = document.getElementById("single-meal");
-  menu.random.addEventListener("click", menu.getRandomMeal);
-  menu.submit.addEventListener("click", menu.getValueFromInput);
-  window.addEventListener("keydown", menu.enterToSubmit);
-  menu.mealsElem.addEventListener("click", menu.showMealRecipe);
-}
-
-document.addEventListener("DOMContentLoaded", initialize);
+document.addEventListener("DOMContentLoaded", menu.initialize);
